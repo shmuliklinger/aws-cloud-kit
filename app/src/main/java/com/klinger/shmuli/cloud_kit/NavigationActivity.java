@@ -19,7 +19,7 @@ import android.view.MenuItem;
 import com.amazonaws.mobile.auth.core.IdentityManager;
 
 public class NavigationActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener  {
+        implements NavigationView.OnNavigationItemSelectedListener, CameraFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class NavigationActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        displaySelectedScreen(R.id.menue_2);
+        //displaySelectedScreen(R.id.menue_2);
     }
 
     @Override
@@ -96,6 +96,10 @@ public class NavigationActivity extends AppCompatActivity
                 fragment = new MapFragment();
                 break;
 
+            case R.id.camera:
+                fragment = new CameraFragment();
+                break;
+
             case R.id.signout:
                 IdentityManager.getDefaultIdentityManager().signOut();
                 break;
@@ -114,4 +118,8 @@ public class NavigationActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

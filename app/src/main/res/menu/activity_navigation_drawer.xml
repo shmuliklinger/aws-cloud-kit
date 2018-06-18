@@ -13,6 +13,11 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="Menu 2" />
 
+        <item
+            android:id="@+id/camera"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Camera" />
+
     </group>
 
     <group android:id="@+id/group_auth"
