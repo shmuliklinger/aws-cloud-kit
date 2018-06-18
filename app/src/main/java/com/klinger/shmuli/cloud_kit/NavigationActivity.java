@@ -19,7 +19,7 @@ import android.view.MenuItem;
 import com.amazonaws.mobile.auth.core.IdentityManager;
 
 public class NavigationActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener , MapFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +113,5 @@ public class NavigationActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
 
-    }
 }
