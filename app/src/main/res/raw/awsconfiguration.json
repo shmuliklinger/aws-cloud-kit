@@ -12,6 +12,12 @@
   "IdentityManager": {
     "Default": {}
   },
+  "S3TransferUtility": {
+    "Default": {
+      "Bucket": "cloudkit-userfiles-mobilehub-1026780938",
+      "Region": "us-east-1"
+    }
+  },
   "PinpointAnalytics": {
     "Default": {
       "AppId": "c3595151655f41468e2a227f424b7f03",
@@ -20,6 +26,12 @@
   },
   "PinpointTargeting": {
     "Default": {
+      "Region": "us-east-1"
+    }
+  },
+  "UserFileManager": {
+    "Default": {
+      "Bucket": "cloudkit-userfiles-mobilehub-1026780938",
       "Region": "us-east-1"
     }
   },

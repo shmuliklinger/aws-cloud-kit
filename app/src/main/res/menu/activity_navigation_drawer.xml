@@ -8,15 +8,11 @@
             android:id="@+id/iss_locator"
             android:icon="@drawable/ic_menu_camera"
             android:title="ISS Locator" />
-        <item
-            android:id="@+id/menue_2"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Menu 2" />
 
         <item
             android:id="@+id/camera"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Camera" />
+            android:title="Upload Image to AWS S3" />
 
     </group>
 

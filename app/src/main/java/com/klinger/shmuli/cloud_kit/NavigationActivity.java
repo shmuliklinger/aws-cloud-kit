@@ -1,12 +1,10 @@
 package com.klinger.shmuli.cloud_kit;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,10 +15,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.amazonaws.mobile.auth.core.IdentityManager;
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
+import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
 
 public class NavigationActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, CameraFragment.OnFragmentInteractionListener {
-
+        implements NavigationView.OnNavigationItemSelectedListener, UploadImageToAwsS3Fragment.OnFragmentInteractionListener {
+    public static PinpointManager pinpointManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +40,18 @@ public class NavigationActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         //displaySelectedScreen(R.id.menue_2);
+
+        // Initialize the AWS Mobile Client
+        AWSMobileClient.getInstance().initialize(this).execute();
+
+        PinpointConfiguration config = new PinpointConfiguration(
+                NavigationActivity.this,
+                AWSMobileClient.getInstance().getCredentialsProvider(),
+                AWSMobileClient.getInstance().getConfiguration()
+        );
+        pinpointManager = new PinpointManager(config);
+        pinpointManager.getSessionClient().startSession();
+        pinpointManager.getAnalyticsClient().submitEvents();
     }
 
     @Override
@@ -52,6 +65,13 @@ public class NavigationActivity extends AppCompatActivity
     }
 
     @Override
+    public void onDestroy() {
+
+        //pinpointManager.getSessionClient().stopSession();
+        //pinpointManager.getAnalyticsClient().submitEvents();
+        super.onDestroy();
+    }
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation, menu);
@@ -61,7 +81,7 @@ public class NavigationActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
+        // automatically handle clicks on the Home/Up takePicButton, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
@@ -88,20 +108,19 @@ public class NavigationActivity extends AppCompatActivity
 
         //initializing the fragment object which is selected
         switch (itemId) {
-            case R.id.menue_2:
-                fragment = new Menu2();
-                break;
 
             case R.id.iss_locator:
                 fragment = new MapFragment();
                 break;
 
             case R.id.camera:
-                fragment = new CameraFragment();
+                fragment = new UploadImageToAwsS3Fragment();
                 break;
 
             case R.id.signout:
                 IdentityManager.getDefaultIdentityManager().signOut();
+                Intent intent = new Intent(this, AuthenticatorActivity.class);
+                startActivity(intent);
                 break;
 
         }
